@@ -1,0 +1,20 @@
+module data_mem  #(parameter dw = 32, dl = 1024)(input logic [31:0]data input logic rd,input logic wr,input logic [31:0] pa,output logic [31:0] data_out,input logic rst);
+logic [dw-1:0] mem[dl-1:0];  // 2D array for memory
+
+ assign data = rst ? 32'b0 : mem[addr[9:0]];
+
+ 
+always @(*) 
+begin
+if(rd==1)
+data_out=mem[pa];
+
+
+else if(wr==1)
+mem[pa]=data_out;
+ 
+
+else 
+data_out=0;
+end
+end module 

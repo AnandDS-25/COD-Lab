@@ -1,0 +1,11 @@
+module write_back(input logic[31:0] data_out, input logic[31:0] alu_out,input logic mem_reg,output logic[31:0] mux_out])
+
+ always_comb
+
+    begin
+        if (mem_reg)
+            mux_out = data_out;         // Select b if sel is 1
+        else
+            mux_out= alu_out;         // Select a if sel is 0
+    end
+endmodule
