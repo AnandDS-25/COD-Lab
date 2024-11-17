@@ -1,0 +1,40 @@
+module instruc_ex (
+    input logic [31:0] rs1_data,    // Source register 1 data
+    input logic [31:0] rs2_data,    // Source register 2 data
+    input logic [31:0] imm,         // Immediate value
+    input logic alu_src,            // ALU source select
+    input logic [3:0] alu_control,  // ALU control input
+    input logic branch,             // Branch control signal
+    output logic [31:0] alu_result, // ALU result output
+    output logic jump               // Jump output
+);
+
+    // Intermediate signals
+    logic [31:0] mux_out;           // Output of the multiplexer
+    logic and_out;                  // Output of the AND gate
+
+    // Instantiate the multiplexer
+    mux_1 mux_inst (
+        .a(rs2_data),
+        .b(imm),
+        .sel(alu_src),
+        .y(mux_out)
+    );
+
+    // Instantiate the ALU
+    alu alu_inst (
+        .rs1_data(rs1_data),
+        .rs2_data(mux_out),
+        .alu_control(alu_control),
+        .result(alu_result),
+        .zero(and_out)
+    );
+
+    // Instantiate the AND gate
+    and_g and_inst (
+        .a(and_out),
+        .b(branch),
+        .c(jump)
+    );
+
+endmodule
