@@ -1,0 +1,67 @@
+module decoder;
+(output logic[6:0] opcode;
+output logic[11:7] rd;
+output logic[14:12] func3;
+output logic[19:15] rs1;
+output logic[24:20] rs2;
+output logic [31:25] func7;
+input logic[31:0] inst;)
+
+assign opcode=inst[6:0];
+always @(*) 
+begin 
+case(opcode)
+7'b0110011:begin
+
+rd=inst[11:7];
+func3=inst[14:12];
+rs1=inst[19:15];
+rs2=inst[24:20];
+func7=inst[31:25];
+
+end
+
+7'b 0010011:begin
+
+rd=inst[11:7];
+func3=inst[14:12];
+rs1=inst[19:15];
+rs2=inst[24:20];
+func7=inst[31:25];
+
+end
+
+7'b 0000011:begin
+
+rd=inst[11:7];
+func3=inst[14:12];
+rs1=inst[19:15];
+rs2=inst[24:20];
+func7=inst[31:25];
+
+end
+
+7'b0100011:begin
+
+rd=inst[11:7];
+func3=inst[14:12];
+rs1=inst[19:15];
+rs2=inst[24:20];
+func7=inst[31:25];
+
+end
+
+7'b1100011:begin
+
+rd=inst[11:7];
+func3=inst[14:12];
+rs1=inst[19:15];
+rs2=inst[24:20];
+func7=inst[31:25];
+
+end
+
+
+   
+   
+

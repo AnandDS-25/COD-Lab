@@ -1,0 +1,14 @@
+module reg_file
+(input logic [5:0]rs1_addr,
+input logic [5:0]rs2_addr,
+inputlogic [5:0]rd_addr,
+input logic [1:0]reg_write,
+input logic [31:0]wr_data,
+input logic [1:0]rst;
+outputlogic [31:0]rs1_imm,
+output logic [31:0]rs2_data,
+);
+
+
+
+    logic [31:0] reg[31:0];	 // 2D array for memory

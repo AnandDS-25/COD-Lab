@@ -1,0 +1,53 @@
+module instruc_decode (
+  input logic [5:0] rs1_addr,       // Address for register 1
+  input logic [5:0] rs2_addr,       // Address for register 2
+  input logic [5:0] rd_addr,        // Address for write register
+  input logic [1:0] reg_write,      // Control signal for register write
+  input logic [31:0] wr_data,       // Data to write to the register
+  input logic [1:0] rst,            // Reset signal
+  input logic [31:0] inst,          // Instruction input
+  output logic [31:0] rs1_data,     // Data output from register 1
+  output logic [31:0] rs2_data,     // Data output from register 2
+  output logic [31:0] imm_out        // Sign-extended immediate output
+);
+
+  // Intermediate signals
+  logic [11:0] imm;                 // Immediate output from decoder
+  logic [6:0] opcode;               // Opcode from decoder
+  logic [5:0] rd;                   // Destination register from decoder
+  logic [2:0] func3;                // Function code from decoder
+  logic [4:0] rs1;                  // Source register 1 from decoder
+  logic [4:0] rs2;                  // Source register 2 from decoder
+  logic [6:0] func7;                // Function 7 from decoder
+
+  // Instantiate the decoder
+  decoder decoder_inst (
+    .inst(inst),                     // Connect instruction input
+    .opcode(opcode),                 // Output opcode
+    .rd(rd),                         // Output destination register
+    .func3(func3),                   // Output function code
+    .imm(imm),                       // Output immediate
+    .rs1(rs1),                       // Output source register 1
+    .rs2(rs2),                       // Output source register 2
+    .func7(func7)                   // Output function 7
+  );
+
+  // Instantiate the register file
+  reg_file reg_file_inst (
+    .rs1_addr(rs1_addr),             // Address for register 1
+    .rs2_addr(rs2_addr),             // Address for register 2
+    .rd_addr(rd_addr),               // Address for write register
+    .reg_write(reg_write),           // Control signal for register write
+    .wr_data(wr_data),               // Data to write to the register
+    .rst(rst),                       // Reset signal
+    .rs1_imm(rs1_data),              // Data output from register 1
+    .rs2_data(rs2_data)              // Data output from register 2
+  );
+
+  // Instantiate the sign extension module
+  sign sign_inst (
+    .imm_in(imm),                    // Connect immediate input from decoder
+    .imm_out(imm_out)               // Connect sign-extended output
+  );
+
+endmodule
